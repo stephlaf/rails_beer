@@ -16,6 +16,8 @@ function order_by_occurrence(arr) {
 
 function initQuagga(){
   if ($('#barcode-scanner').length > 0 && navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+    
+    // console.log('From init_quagga.js')
 
     var last_result = [];
 
@@ -50,6 +52,7 @@ function initQuagga(){
         target: document.querySelector('#barcode-scanner'),
         frequency: 10,
         locate: true 
+        // singleChannel: true
       },
       decoder: {
         readers : [
@@ -57,7 +60,14 @@ function initQuagga(){
             format: "ean_reader",
             config: { supplements: ['ean_5_reader', 'ean_2_reader'] }
           },
-          'ean_reader','ean_8_reader','code_39_reader','code_39_vin_reader','codabar_reader','upc_reader','upc_e_reader'],
+          'ean_reader',
+          // 'ean_8_reader',
+          // 'code_39_reader',
+          // 'code_39_vin_reader',
+          // 'codabar_reader',
+          // 'upc_reader',
+          // 'upc_e_reader'
+        ],
         debug: {
             drawBoundingBox: true,
             showFrequency: true,
@@ -88,12 +98,16 @@ function initQuagga(){
         if (err) { console.log(err); return }
         Quagga.initialized = true;
         Quagga.start();
-
+        // console.log('Quagga STARTED line 93')
     });
 
     Quagga.onDetected(function(data) { 
+      // data.forEach((d) => {
+        console.log(data.codeResult)
+      // })
+
       var lastCode = data.codeResult.code;
-      console.log(lastCode)
+      console.log('From .onDetected, upc is: ', lastCode)
       Quagga.stop();
 
       const csrfToken = document.querySelector("[name='csrf-token']").content;
@@ -110,7 +124,15 @@ function initQuagga(){
         body: JSON.stringify({ upc: lastCode })
       })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then((data) => {
+          if (data.id) {
+            console.log(data);
+
+          } else {
+            console.log('Beer not in DB');
+
+        }
+      });
       
       // $.ajax({
       //   type: "POST",
