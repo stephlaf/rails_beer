@@ -11,7 +11,7 @@
     "jpeg-js": "^0.4.0",
     "jquery": "^3.5.1",
     "match-sorter": "^4.2.0",
-    "node-forge": "^0.10.0",
+    "node-forge": "^1.0.0",
     "popper.js": "^1.16.1",
     "quagga": "^0.12.1",
     "scandit-sdk": "^5.1.4",
