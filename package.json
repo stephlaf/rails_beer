@@ -8,7 +8,7 @@
     "@rails/webpacker": "4.2.2",
     "@zxing/library": "^0.17.1",
     "bootstrap": "^4.5.0",
-    "jpeg-js": "^0.4.0",
+    "jpeg-js": "^0.4.4",
     "jquery": "^3.5.1",
     "match-sorter": "^4.2.0",
     "node-forge": "^0.10.0",
