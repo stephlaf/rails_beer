@@ -5,6 +5,7 @@ require 'csv'
 require_relative './scrapers/load_breweries'
 require_relative './scrapers/scrape_brasseurs_du_monde'
 require_relative './scrapers/scrape_dieu_du_ciel'
+require_relative './scrapers/ddc_airtable'
 require_relative './scrapers/scrape_farnham'
 require_relative './scrapers/scrape_trefle_noir'
 require_relative './scrapers/scrape_hermite'
@@ -14,35 +15,35 @@ require_relative './scrapers/upc_assign'
 # ______________________________________
 # BEER TABS
 
-puts "Destroying all beer tabs..."
-BeerTab.destroy_all
+# puts "Destroying all beer tabs..."
+# BeerTab.destroy_all
 
 # ______________________________________
 # USERS
 
-puts "Destroying all users..."
-User.destroy_all
+# puts "Destroying all users..."
+# User.destroy_all
 
-puts "Creating users..."
+# puts "Creating users..."
 
-names = %w[a b c d e]
-user_counter = 0
+# names = %w[a b c d e]
+# user_counter = 0
 
-5.times do
-  User.create!(email: "#{names[user_counter]}@#{names[user_counter]}.#{names[user_counter]}", password: '123456')
-  user_counter += 1
-end
+# 5.times do
+#   User.create!(email: "#{names[user_counter]}@#{names[user_counter]}.#{names[user_counter]}", password: '123456')
+#   user_counter += 1
+# end
 
 # ________________________________________
 # BREWERIES
 
-puts "Destroying all breweries..."
-Brewery.destroy_all
+# puts "Destroying all breweries..."
+# Brewery.destroy_all
 
-puts "Loading all breweries..."
-load_breweries
+# puts "Loading all breweries..."
+# load_breweries
 
-Brewery.all
+# Brewery.all
 
 # ________________________________________
 # BEERS
@@ -53,21 +54,22 @@ Beer.destroy_all
 # ____________________________________________________
 # BEERS Brasseurs du Monde
 
-scrape_brasseurs_du_monde
-puts "Done Brasseurs du Monde 🍻"
+# scrape_brasseurs_du_monde
+# puts "Done Brasseurs du Monde 🍻"
 
 # ________________________________________
 # BEERS Dieu du Ciel!
 
-scrape_dieu_du_ciel
+# scrape_dieu_du_ciel
+fetch_ddc_from_airtable
 puts "Done Dieu du Ciel! 🍻"
 
 # ____________________________________________________
 # BEERS Farnham
 
 # scrape_farnham
-load_csv
-puts "Done Farnham 🍻"
+# load_csv
+# puts "Done Farnham 🍻"
 
 # ____________________________________________________
 # BEERS Trefle Noir
@@ -78,8 +80,8 @@ puts "Done Trefle Noir 🍻"
 # ____________________________________________________
 # BEERS Hermite
 
-# scrape_hermite
-# puts "Done Hermite 🍻"
+scrape_hermite
+puts "Done Hermite 🍻"
 
 # ____________________________________________________
 # BEERS Hermite
@@ -89,8 +91,8 @@ puts "Done Trefle Noir 🍻"
 
 # ___________________________________________________
 # UPCs assign
-puts "Assigning UPCs..."
-upc_assign
+# puts "Assigning UPCs..."
+# upc_assign
 
 # # ____________________________________________________
 # # UPCs Randomize

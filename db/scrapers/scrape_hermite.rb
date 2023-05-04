@@ -3,12 +3,12 @@ require 'nokogiri'
 # require_relative 'beer'
 
 def scrape_hermite
-  url = "https://microhermite.com/brasserie/nos-bieres-en-canette/"
-  html = open(url).read
+  url = "https://microhermite.com"
+  html = URI.open(url).read
   doc = Nokogiri::HTML(html)
 
   container = doc.search('#widget-2d8f2c3d-5e88-4b8a-859d-6cc800061f26')
-  
+
   img_links = container.search('span.image-block').map do |partial_link|
     clean_partial = partial_link.children.attribute('src').value.gsub("../..", '')
     "https://microhermite.com#{clean_partial}"
@@ -18,7 +18,7 @@ def scrape_hermite
 
   all_ps = container.search('p').map { |each_p| each_p.text.strip }
   grouped = all_ps.split { |str| str == '' }
-  
+
   grouped.each do |group|
     group.reject! { |el| el.length == 1 }
     clean_groups << group unless group.count.zero?
@@ -47,7 +47,7 @@ def scrape_hermite
 
   infos.each do |beer_hash|
     beer = Beer.new(beer_hash)
-    
+
     photo_file = URI.open(beer_hash[:image_link])
     beer.photo.attach(io: photo_file, filename: "#{beer_hash[:name]}", content_type: 'image/jpg')
 

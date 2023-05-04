@@ -10,19 +10,19 @@ end
 
 def load_breweries
   puts "Gettings names from CSV..."
-  
+
   filepath = File.join(__dir__, 'amq.csv')
   csv_options = { col_sep: ',', headers: :first_row, header_converters: :symbol }
 
   amq_names = []
 
-  CSV.foreach(filepath, csv_options) do |row|
+  CSV.foreach(filepath, col_sep: ',', headers: :first_row, header_converters: :symbol) do |row|
     cleaned = row[:name].gsub(/\s{2,}/, ' ').gsub(/\s-\s/, ' ').gsub(/[[:space]]/, '')
     titled = []
 
     first_words = %w[à la le ô]
     articles = %w[À La Le De Les Du Sur Et]
-    
+
     cleaned.titleize.split.each_with_index do |str, index|
       if index.zero? && first_words.include?(str)
         titled << str.upcase
@@ -30,7 +30,7 @@ def load_breweries
         splitted = str.split("'")
         first = splitted.first
         last = splitted.last.capitalize
-        titled << "#{first}'#{last}"      
+        titled << "#{first}'#{last}"
       elsif index.positive? && articles.include?(str)
         titled << str.downcase
       elsif str.start_with?("L'") || str.start_with?("D'")

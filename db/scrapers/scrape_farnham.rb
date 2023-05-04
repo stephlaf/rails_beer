@@ -3,12 +3,12 @@ require 'nokogiri'
 
 def scrape_farnham
   url = "https://farnham-alelager.com/"
-  html = open(url).read
+  html = URI.open(url).read
   doc = Nokogiri::HTML(html)
-  
+
   brewery = Brewery.find_or_initialize_by(name: "Farnham")
   brewery.save!
-  
+
   infos = []
   counter = 1
 
@@ -18,7 +18,7 @@ def scrape_farnham
 
       short_desc = element.search('p strong').text.strip
       dirty_long_desc = element.search('p').text.strip
-      
+
       image_link = element.children.children.attribute('src').value
       # photo_file = URI.open(image_link)
 
@@ -60,7 +60,7 @@ end
 
 def load_csv
   puts "Loading Farnham beers from CSV..."
-  
+
   brewery = Brewery.find_or_initialize_by(name: 'Farnham')
   brewery.save!
 

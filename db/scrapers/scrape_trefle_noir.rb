@@ -14,8 +14,8 @@ def download_to_file(uri)
 end
 
 def scrape_trefle_noir
-  url = "https://www.letreflenoir.com/nos-bieres"
-  html = open(url).read
+  url = "https://letreflenoir.com/pages/nos-bieres"
+  html = URI.open(url).read
   doc = Nokogiri::HTML(html)
 
   good_indices = [0, 4, 5, 6]

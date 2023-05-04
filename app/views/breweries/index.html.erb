@@ -2,13 +2,13 @@
   <h1>Les Brasseries</h1>
 
     <% @breweries.order_by_name.each do |brew| %>
-      <% unless brew.beers.count.zero? %>
+      <#% unless brew.beers.count.zero? %>
         <%= link_to brewery_path(brew) do %>
           <div class="brew-link">
             <p><%= brew.name %></p>
             <span><%= brew.beers.count %> beers</span>
           </div>
         <% end %>
-      <% end %>
+      <#% end %>
     <% end %>
 </div>
