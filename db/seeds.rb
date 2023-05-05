@@ -80,8 +80,8 @@ puts "Done Trefle Noir 🍻"
 # ____________________________________________________
 # BEERS Hermite
 
-scrape_hermite
-puts "Done Hermite 🍻"
+# scrape_hermite
+# puts "Done Hermite 🍻"
 
 # ____________________________________________________
 # BEERS Hermite
