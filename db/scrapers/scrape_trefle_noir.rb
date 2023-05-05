@@ -1,17 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
-
-def download_to_file(uri)
-  stream = URI.open(uri, "rb")
-  return stream if stream.respond_to?(:path) # Already file-like
-
-  Tempfile.new.tap do |file|
-    file.binmode
-    IO.copy_stream(stream, file)
-    stream.close
-    file.rewind
-  end
-end
+require_relative 'fetch_image'
 
 def scrape_trefle_noir
   url = "https://letreflenoir.com/pages/nos-bieres"
@@ -21,7 +10,6 @@ def scrape_trefle_noir
   puts "Creating Trefle Noir beers..."
 
   brewery = Brewery.find_by(name: "Le Trèfle Noir Microbrasserie")
-
   counter = 1
 
   doc.search('.image-with-text').each do |element|
@@ -44,8 +32,6 @@ def scrape_trefle_noir
       infos_hash[slice.first.downcase.to_sym] = slice.last.gsub(': ', '')
     end
 
-    # pp infos_hash
-
     att = {}
 
     att[:name] = element.css('h3.image-with-text__heading.h1').text.strip
@@ -55,14 +41,14 @@ def scrape_trefle_noir
     att[:category] = infos_hash[:type]
     att[:ibu] = infos_hash[:ibu].to_i
 
-    # pp att
-
     unless att[:image_link].nil?
-      photo_file = download_to_file(att[:image_link])
+      photo_file = FetchImage.new(att[:image_link]).download_to_file
       beer = Beer.new(att)
       beer.photo.attach(io: photo_file, filename: "#{att[:name]}", content_type: 'image/jpg')
       beer.brewery = brewery
       beer.save!
     end
+
+    puts "Beer with id #{beer.id} was created"
   end
 end
