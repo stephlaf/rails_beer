@@ -43,7 +43,7 @@ Brewery.destroy_all
 puts "Loading all breweries..."
 load_breweries
 
-# Brewery.all
+Brewery.all
 
 # ________________________________________
 # BEERS
@@ -67,9 +67,9 @@ puts "Done Dieu du Ciel! 🍻"
 # ____________________________________________________
 # BEERS Farnham
 
-# scrape_farnham
+scrape_farnham
 # load_csv
-# puts "Done Farnham 🍻"
+puts "Done Farnham 🍻"
 
 # ____________________________________________________
 # BEERS Trefle Noir

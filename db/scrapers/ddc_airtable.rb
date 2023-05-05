@@ -34,6 +34,6 @@ def fetch_ddc_from_airtable
       beer.save!
     end
 
-    puts "Beer with id #{beer.id} was created"
+    puts "#{beer.brewery.name}'s #{beer.name} with id #{beer.id} was created"
   end
 end
