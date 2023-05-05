@@ -15,33 +15,33 @@ require_relative './scrapers/upc_assign'
 # ______________________________________
 # BEER TABS
 
-# puts "Destroying all beer tabs..."
-# BeerTab.destroy_all
+puts "Destroying all beer tabs..."
+BeerTab.destroy_all
 
 # ______________________________________
 # USERS
 
-# puts "Destroying all users..."
-# User.destroy_all
+puts "Destroying all users..."
+User.destroy_all
 
-# puts "Creating users..."
+puts "Creating users..."
 
-# names = %w[a b c d e]
-# user_counter = 0
+names = %w[a b c d e]
+user_counter = 0
 
-# 5.times do
-#   User.create!(email: "#{names[user_counter]}@#{names[user_counter]}.#{names[user_counter]}", password: '123456')
-#   user_counter += 1
-# end
+5.times do
+  User.create!(email: "#{names[user_counter]}@#{names[user_counter]}.#{names[user_counter]}", password: '123456')
+  user_counter += 1
+end
 
 # ________________________________________
 # BREWERIES
 
-# puts "Destroying all breweries..."
-# Brewery.destroy_all
+puts "Destroying all breweries..."
+Brewery.destroy_all
 
-# puts "Loading all breweries..."
-# load_breweries
+puts "Loading all breweries..."
+load_breweries
 
 # Brewery.all
 
