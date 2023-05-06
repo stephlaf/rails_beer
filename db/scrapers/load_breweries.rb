@@ -11,7 +11,7 @@ end
 def load_breweries
   puts "Gettings names from CSV..."
 
-  filepath = File.join(__dir__, 'amq.csv')
+  filepath = File.join(__dir__, '../data/amq.csv')
   csv_options = { col_sep: ',', headers: :first_row, header_converters: :symbol }
 
   amq_names = []

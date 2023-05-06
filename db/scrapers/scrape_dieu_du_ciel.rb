@@ -2,6 +2,15 @@ require 'open-uri'
 require 'nokogiri'
 require 'csv'
 
+def load_ddc
+  response = AirtableHelper.new(
+    table_id: 'tblTBwUil8ZUnfaBc',
+    brewery_name: 'Dieu du Ciel!'
+  ).fetch_from_airtable
+
+  p response
+end
+
 def scrape_dieu_du_ciel
   url = "https://dieuduciel.com/categories/en-bouteille/"
   html = URI.open(url).read
@@ -32,7 +41,6 @@ def scrape_dieu_du_ciel
     att[:alc_percent] = doc.search('.abv').text.strip.delete_suffix("% alc./vol.")
     att[:short_desc] = doc.search('.short-desc p').text.strip
     att[:long_desc] = doc.search('.long-desc-inner p').text.strip
-    # att[:upc] = upcs[counter]
 
     beer = Beer.new(att)
     beer.photo.attach(io: photo_file, filename: "#{name}", content_type: 'image/jpg')
@@ -40,10 +48,5 @@ def scrape_dieu_du_ciel
     beer.brewery = brewery
 
     beer.save!
-
-    # counter = 0
-    # upcs = %w[4902125189003 0011391001897 0011391001835 14214267-000499 0060383857974 7630054475702 7630054474606]
-
-    # counter += 1
   end
 end
