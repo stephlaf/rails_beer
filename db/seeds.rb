@@ -47,35 +47,34 @@ require_relative './scrapers/upc_assign'
 # ________________________________________
 # BEERS
 
-puts "Destroying all beers..."
-Beer.destroy_all
+# puts "Destroying all beers..."
+# Beer.destroy_all
+
+# ________________________________________
+# BEERS Dieu du Ciel!
+
+# load_ddc
+# puts "Done Dieu du Ciel! 🍻"
+
+# ____________________________________________________
+# BEERS Farnham
+
+# scrape_farnham
+# load_farnham
+# puts "Done Farnham 🍻"
+
+# ____________________________________________________
+# BEERS Trefle Noir
+
+# scrape_trefle_noir
+# load_trefle_noir
+# puts "Done Trefle Noir 🍻"
 
 # ____________________________________________________
 # BEERS Brasseurs du Monde
 
 # scrape_brasseurs_du_monde
 # puts "Done Brasseurs du Monde 🍻"
-
-# ________________________________________
-# BEERS Dieu du Ciel!
-
-# scrape_dieu_du_ciel
-# fetch_ddc_from_airtable
-load_ddc
-puts "Done Dieu du Ciel! 🍻"
-
-# ____________________________________________________
-# BEERS Farnham
-
-# scrape_farnham
-load_farnham
-puts "Done Farnham 🍻"
-
-# ____________________________________________________
-# BEERS Trefle Noir
-
-# scrape_trefle_noir
-# puts "Done Trefle Noir 🍻"
 
 # ____________________________________________________
 # BEERS Hermite

@@ -1,6 +1,8 @@
 require 'open-uri'
 require 'nokogiri'
-require_relative 'fetch_image'
+require 'net/http'
+require 'json'
+require_relative 'airtable_helper'
 
 def scrape_trefle_noir
   url = "https://letreflenoir.com/pages/nos-bieres"
@@ -12,7 +14,7 @@ def scrape_trefle_noir
   brewery = Brewery.find_by(name: "Le Trèfle Noir Microbrasserie")
   counter = 1
 
-  doc.search('.image-with-text').each do |element|
+  details = doc.search('.image-with-text').map do |element|
     counter = 1
     infos_array = element.css('.image-with-text__description p').first.children.map do |child|
       if counter == 1
@@ -41,14 +43,21 @@ def scrape_trefle_noir
     att[:category] = infos_hash[:type]
     att[:ibu] = infos_hash[:ibu].to_i
 
-    unless att[:image_link].nil?
-      photo_file = FetchImage.new(att[:image_link]).download_to_file
-      beer = Beer.new(att)
-      beer.photo.attach(io: photo_file, filename: "#{att[:name]}", content_type: 'image/jpg')
-      beer.brewery = brewery
-      beer.save!
-    end
-
-    puts "#{beer.brewery.name}'s #{beer.name} with id #{beer.id} was created"
+    att
   end
+
+  response = AirtableHelper.new(
+    table_id: 'tbleZs7nvjrIf9gUe',
+    data: details
+  ).save_to_airtable
+  p response
+end
+
+def load_trefle_noir
+  response = AirtableHelper.new(
+    table_id: 'tbleZs7nvjrIf9gUe',
+    brewery_name: 'Le Trèfle Noir Microbrasserie'
+  ).fetch_from_airtable
+
+  p response
 end

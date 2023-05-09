@@ -34,26 +34,28 @@ class AirtableHelper
       use_ssl: uri.scheme == 'https'
     }
 
-    records = @data.map do |beer|
-      {
-        'fields' => {
-          'name' => beer[:name],
-          'long_desc' => beer[:long_desc],
-          'category' => beer[:category],
-          'image_link' => beer[:image_link],
-          'ibu' => beer[:ibu],
-          'alc_percent' => beer[:alc_percent]
+    @data.each_slice(10) do |slice|
+      records = slice.first(10).map do |beer|
+        {
+          'fields' => {
+            'name' => beer[:name],
+            'long_desc' => beer[:long_desc],
+            'category' => beer[:category],
+            'image_link' => beer[:image_link],
+            'ibu' => beer[:ibu],
+            'alc_percent' => beer[:alc_percent]
+          }
         }
-      }
+      end
+
+      req.body = { 'records' => records }.to_json
+
+      res = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+        http.request(req)
+      end
+
+      p res
     end
-
-    req.body = { 'records' => records }.to_json
-
-    res = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(req)
-    end
-
-    res
   end
 
   def fetch_from_airtable
