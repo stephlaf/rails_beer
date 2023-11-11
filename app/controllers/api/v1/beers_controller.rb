@@ -11,4 +11,28 @@ class Api::V1::BeersController < Api::V1::BaseController
     # raise
     @beer = Beer.find(params[:id])
   end
+
+  def create
+    @beer = Beer.new(beer_params)
+
+    @beer.save!
+    render :show
+  end
+
+  private
+
+  def beer_params
+    params.require(:beer).permit(
+      :name,
+      :upc,
+      :category,
+      :rating,
+      :ibu,
+      :alc_percent,
+      :short_desc,
+      :long_desc,
+      :brewery_id,
+      photo: :file
+    )
+  end
 end

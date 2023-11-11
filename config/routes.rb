@@ -25,6 +25,9 @@ Rails.application.routes.draw do
       get 'beers/all/', to: 'beers#all', as: 'all'
       get 'beers/search/:query', to: 'beers#search', as: 'search'
       get 'beers/:id', to: 'beers#show'
+      post 'beers', to: 'beers#create'
+      
+      get 'breweries/all/', to: 'breweries#all', as: 'all_breweries'
     end
   end
 

@@ -67,7 +67,7 @@ class AirtableHelper
     uri.query = URI.encode_www_form(params)
 
     req = Net::HTTP::Get.new(uri)
-    req['Authorization'] = "Bearer #{ENV["AIRTABLE_TOKEN"]}"
+    req['Authorization'] = "Bearer #{ENV['AIRTABLE_TOKEN']}"
     req_options = { use_ssl: uri.scheme == 'https' }
 
     res = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
