@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::BreweriesController < Api::V1::BaseController
   def all
     @breweries = Brewery.all.order_by_name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BeerTabsController < ApplicationController
   before_action :set_beer_tab, only: [:edit, :update, :destroy]
   before_action :set_beer, only: [:new, :create, :edit, :update]
