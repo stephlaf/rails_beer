@@ -83,7 +83,7 @@ require_relative './scrapers/upc_assign'
 # puts "Done Hermite 🍻"
 
 # ____________________________________________________
-# BEERS Hermite
+# BEERS Grimoire
 
 # scrape_grimoire
 # puts "Done Grimoire 🍻"

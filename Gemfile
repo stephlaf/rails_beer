@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Deprecate.skip = true if defined?(Deprecate.skip)
 Gem::Deprecate.skip = true if defined?(Gem::Deprecate.skip)
 
@@ -11,7 +13,7 @@ gem 'rails', '6.1.7.3'
 
 gem 'pg'
 # Use Puma as the app server
-gem "puma", ">= 5.6.7"
+gem 'puma', '>= 5.6.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -32,30 +34,31 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bootsnap', '>= 1.4.2', require: false
 
 # Custom
+gem 'airtable'
 gem 'autoprefixer-rails'
-gem 'font-awesome-sass', '~> 5.6.1'
-gem 'simple_form'
 gem 'cloudinary', '~> 1.16.0'
 gem 'devise'
+gem 'font-awesome-sass', '~> 5.6.1'
 gem 'pg_search', '~> 2.3.0'
+gem 'simple_form'
 gem 'turbolinks_render'
-gem 'airtable'
 
-gem 'dotenv-rails', groups: [:development, :test]
+gem 'dotenv-rails', groups: %i[development test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry-byebug'
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.2'
+  gem 'rubocop', '~> 1.57', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   # gem 'spring-watcher-listen', '~> 2.0.0'
+  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
@@ -67,4 +70,4 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
