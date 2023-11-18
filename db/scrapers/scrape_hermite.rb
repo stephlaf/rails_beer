@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 require 'nokogiri'
 # require_relative 'beer'
 
 def scrape_hermite
-  url = "https://microhermite.com"
+  url = 'https://microhermite.com'
   html = URI.open(url).read
   doc = Nokogiri::HTML(html)
 
   container = doc.search('#widget-2d8f2c3d-5e88-4b8a-859d-6cc800061f26')
 
   img_links = container.search('span.image-block').map do |partial_link|
-    clean_partial = partial_link.children.attribute('src').value.gsub("../..", '')
+    clean_partial = partial_link.children.attribute('src').value.gsub('../..', '')
     "https://microhermite.com#{clean_partial}"
   end
 
@@ -27,19 +29,19 @@ def scrape_hermite
   infos = []
 
   clean_groups.each_with_index do |group, index|
-    unless group.count == 1
-      att = {}
-      att[:name] = group.first
-      att[:image_link] = img_links[index]
-      att[:short_desc] = group[-2]
+    next if group.count == 1
 
-      group.each do |string|
-        att[:ibu] = string.gsub('IBU: ', '').to_i if string.start_with?('IBU: ')
-        att[:alc_percent] = string.gsub('Alcool: ', '').delete_suffix('%') if string.start_with?('Alcool: ')
-      end
+    att = {}
+    att[:name] = group.first
+    att[:image_link] = img_links[index]
+    att[:short_desc] = group[-2]
 
-      infos << att
+    group.each do |string|
+      att[:ibu] = string.gsub('IBU: ', '').to_i if string.start_with?('IBU: ')
+      att[:alc_percent] = string.gsub('Alcool: ', '').delete_suffix('%') if string.start_with?('Alcool: ')
     end
+
+    infos << att
   end
 
   brewery = Brewery.find_or_initialize_by(name: "L'Hermite")
@@ -49,7 +51,7 @@ def scrape_hermite
     beer = Beer.new(beer_hash)
 
     photo_file = URI.open(beer_hash[:image_link])
-    beer.photo.attach(io: photo_file, filename: "#{beer_hash[:name]}", content_type: 'image/jpg')
+    beer.photo.attach(io: photo_file, filename: beer_hash[:name].to_s, content_type: 'image/jpg')
 
     beer.brewery = brewery
 

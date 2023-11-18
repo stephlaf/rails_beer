@@ -1,0 +1,20 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - vendor/**/*
+    - spec/fixtures/**/*
+    - tmp/**/*
+    - .git/**/*
+    - bin/*
+    - db/migrate/*
+    - db/data/*
+    - db/scrapers/*
+    - db/schema.rb
+    - config/spring.rb
+    - config/puma.rb
+    - config/initializers/*
+    - config/environments/*
+    - config/boot.rb
+    - config.ru
+    - app/helpers/*
+    - app/mailers/application_mailer.rb
