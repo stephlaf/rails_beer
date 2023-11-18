@@ -18,3 +18,7 @@ AllCops:
     - config.ru
     - app/helpers/*
     - app/mailers/application_mailer.rb
+
+Style/Documentation:
+  Enabled: false
+

@@ -2,7 +2,6 @@
 
 module Api
   module V1
-    # BreweriesController
     class BreweriesController < Api::V1::BaseController
       def all
         @breweries = Brewery.all.order_by_name
