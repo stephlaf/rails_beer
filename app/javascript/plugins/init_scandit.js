@@ -30,9 +30,9 @@ const callController = (scanResult) => {
   let fetchUrl;
 
   if (localhostRegex.test(url)) {
-    fetchUrl = 'http://localhost:3000/beers/get_barcode';
+    fetchUrl = 'http://localhost:3000/beers/fetch_barcode';
   } else if (herokuRegex.test(url)) {
-    fetchUrl = 'https://hopscan.herokuapp.com/beers/get_barcode';
+    fetchUrl = 'https://hopscan.herokuapp.com/beers/fetch_barcode';
   }
   
   fetch(fetchUrl,{
