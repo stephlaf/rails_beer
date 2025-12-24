@@ -21,7 +21,7 @@
                 <!-- Link trigger modal -->
                 <%= link_to edit_beer_beer_tab_path(beer, beer_tab),'data-toggle': "modal", 'data-target': "#beerTabModal#{beer.id}" do %>
                   <span><%= beer_tab.rating.zero? ? '💩' : '⭐️' * beer_tab.rating %></span>
-                <% end %> 
+                <% end %>
 
                 <div class="modal fade" id="beerTabModal<%= beer.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -45,15 +45,15 @@
                     </div>
                   </div>
                 </div>
-
               <% end %>
-
             <% end %>
           <% end %>
 
           <%= link_to beer_path(beer) do  %>
             <% if beer.photo.attached? %>
               <div class="my-3"><%= cl_image_tag beer.photo.key, height: 150, crop: :thumb %></div>
+            <% elsif beer.image_link.present? %>
+              <div class="beer-card-img"><%= image_tag beer.image_link, height: 150 %></div>
             <% else %>
               <div class="my-3"><%= image_tag 'default_beer.png', height: 150 %></div>
             <% end %>
