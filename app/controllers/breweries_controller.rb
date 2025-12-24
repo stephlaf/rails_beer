@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class BreweriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  
+  skip_before_action :authenticate_user!, only: %i[index show]
+
   def index
     @breweries = Brewery.all
   end
@@ -9,11 +11,7 @@ class BreweriesController < ApplicationController
     @brewery = Brewery.find(params[:id])
   end
 
-  def new
+  def new; end
 
-  end
-
-  def create
-
-  end
+  def create; end
 end
