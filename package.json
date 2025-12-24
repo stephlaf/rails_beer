@@ -11,7 +11,7 @@
     "jpeg-js": "^0.4.4",
     "jquery": "^3.5.1",
     "match-sorter": "^4.2.0",
-    "node-forge": "^0.10.0",
+    "node-forge": "^1.3.2",
     "nth-check": "^2.1.1",
     "popper.js": "^1.16.1",
     "quagga": "^0.12.1",
