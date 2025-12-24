@@ -35,7 +35,7 @@ function initQuagga(){
           
     //       $.ajax({
     //         type: "POST",
-    //         url: '/beers/get_barcode',
+    //         url: '/beers/fetch_barcode',
     //         data: { upc: code }
     //       });
     //     }
@@ -98,7 +98,7 @@ function initQuagga(){
 
       const csrfToken = document.querySelector("[name='csrf-token']").content;
 
-      fetch('http://localhost:3000//beers/get_barcode',{
+      fetch('http://localhost:3000//beers/fetch_barcode',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function initQuagga(){
       
       // $.ajax({
       //   type: "POST",
-      //   url: '/beers/get_barcode',
+      //   url: '/beers/fetch_barcode',
       //   data: { upc: lastCode }
       // });
     });
