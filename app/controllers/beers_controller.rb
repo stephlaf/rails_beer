@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class BeersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  
+  skip_before_action :authenticate_user!, only: %i[index show]
+
   def index
     if params[:query].present?
       @beers = Beer.includes(:brewery).global_search(params[:query])
-      
+
       if @beers.empty?
-        flash.now[:notice] = "Aucun résultat 😕"
+        flash.now[:notice] = 'Aucun résultat 😕'
         @beers = Beer.includes(:brewery)
       end
 
@@ -18,11 +20,11 @@ class BeersController < ApplicationController
 
   def show
     @beer = Beer.find(params[:id])
-    if current_user
-      @beer_tab = BeerTab.where({ beer_id: @beer.id, user_id: current_user.id }).first
-    end
+    return unless current_user
+
+    @beer_tab = BeerTab.where({ beer_id: @beer.id, user_id: current_user.id }).first
   end
-  
+
   def new
     @beer = Beer.new(upc: params[:upc])
   end
@@ -52,20 +54,16 @@ class BeersController < ApplicationController
   #   end
   # end
 
-  def edit
-  end
+  def edit; end
 
-  def update
-  end
+  def update; end
 
-  def destroy
-  end
+  def destroy; end
 
-  def scan
-  end
+  def scan; end
 
-  # POST /beers/get_barcode
-  def get_barcode
+  # POST /beers/fetch_barcode
+  def fetch_barcode
     @upc = params[:upc]
     @beer = Beer.find_or_initialize_by(upc: @upc)
     render json: @beer
@@ -78,6 +76,3 @@ class BeersController < ApplicationController
     params.require(:beer).permit(:name, :brewery, :photo, :upc)
   end
 end
-
-
-

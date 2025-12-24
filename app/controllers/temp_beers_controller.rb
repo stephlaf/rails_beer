@@ -1,12 +1,12 @@
-class TempBeersController < ApplicationController
-  def index
-  end
+# frozen_string_literal: true
 
-  def show
-  end
+class TempBeersController < ApplicationController
+  def index; end
+
+  def show; end
 
   def new
-    @brewery_names = Brewery.all.map { |brew| brew.name }
+    @brewery_names = Brewery.all.map(&:name)
     @temp_beer = TempBeer.new(upc: params[:upc])
   end
 
@@ -14,14 +14,13 @@ class TempBeersController < ApplicationController
     @temp_beer = TempBeer.new(temp_beer_params)
 
     if @temp_beer.save
-      redirect_to root_path, flash: {notice: "Merci, nous allons y jeter un oeil 😉"}
+      redirect_to root_path, flash: { notice: 'Merci, nous allons y jeter un oeil 😉' }
     else
       render :new_upc
     end
   end
 
-  def destroy
-  end
+  def destroy; end
 
   private
 

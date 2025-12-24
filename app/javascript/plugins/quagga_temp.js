@@ -26,7 +26,7 @@ function load_quagga(){
           Quagga.stop();
           $.ajax({
             type: "POST",
-            url: '/products/get_barcode',
+            url: '/products/fetch_barcode',
             data: { upc: code }
           });
         }

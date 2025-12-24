@@ -3,7 +3,7 @@ require 'nokogiri'
 
 def scrape_brasseurs_du_monde
   url = "https://brasseursdumonde.com/nos-bieres/"
-  html = open(url).read
+  html = URI.open(url).read
   doc = Nokogiri::HTML(html)
   suffix = "Inscrivez-vous à notre infolettre!© 2020 | Brasseurs du monde"
 
@@ -39,11 +39,11 @@ def scrape_brasseurs_du_monde
   link_pairs.each do |link_pair|
     html = open(link_pair[:link]).read
     doc = Nokogiri::HTML(html)
-    
+
     att = {}
     name = doc.search('h1.elementor-heading-title').text.strip
     image_link = link_pair[:image_link]
-    
+
     photo_file = URI.open(image_link)
 
     att[:name] = name
@@ -51,7 +51,7 @@ def scrape_brasseurs_du_monde
     # att[:alc_percent] = doc.search('.abv').text.strip
     # att[:short_desc] = doc.search('.short-desc p').text.strip
     att[:long_desc] = doc.search('.elementor-widget-container p').text.strip.delete_suffix(suffix)
-    
+
     beer = Beer.new(att)
     beer.photo.attach(io: photo_file, filename: "#{name}", content_type: 'image/jpg')
 
@@ -59,4 +59,3 @@ def scrape_brasseurs_du_monde
     beer.save!
   end
 end
-

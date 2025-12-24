@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TempBeer < ApplicationRecord
   has_one_attached :photo
 
