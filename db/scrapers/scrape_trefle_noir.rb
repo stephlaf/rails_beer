@@ -1,65 +1,63 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 require 'nokogiri'
-
-def download_to_file(uri)
-  stream = open(uri, "rb")
-  return stream if stream.respond_to?(:path) # Already file-like
-
-  Tempfile.new.tap do |file|
-    file.binmode
-    IO.copy_stream(stream, file)
-    stream.close
-    file.rewind
-  end
-end
+require 'net/http'
+require 'json'
+require_relative 'airtable_helper'
 
 def scrape_trefle_noir
-  url = "https://www.letreflenoir.com/nos-bieres"
-  html = open(url).read
+  url = 'https://letreflenoir.com/pages/nos-bieres'
+  html = URI.open(url).read
   doc = Nokogiri::HTML(html)
 
-  good_indices = [0, 4, 5, 6]
-
-  puts "Creating Trefle Noir beers..."
-
-  brewery = Brewery.find_by(name: "Le Trèfle Noir Microbrasserie")
+  puts 'Creating Trefle Noir beers...'
 
   counter = 1
 
-  doc.search('.txtNew').each do |element|
-    infos = []
+  details = doc.search('.image-with-text').map do |element|
+    counter = 1
+    infos_array = element.css('.image-with-text__description p').first.children.map do |child|
+      case counter
+      when 1
+        counter = 2
+        child.children.text.strip
+      when 2
+        counter = 3
+        child.text
+      when 3
+        counter = 1
+        nil
+      end
+    end
+
+    infos_hash = {}
+    infos_array.compact.each_slice(2) { |slice| infos_hash[slice.first.downcase.to_sym] = slice.last.gsub(': ', '') }
+
     att = {}
 
-    element.children.text.split("\n\n").each_with_index do |string, index|
-      if good_indices.include?(index)
-        infos << string.split(":").last.strip.gsub(/[[:space:]]/, ' ').gsub('%', '').strip
-      end
-    end
+    att[:name] = element.css('h3.image-with-text__heading.h1').text.strip
+    att[:image_link] = "https:#{element.css('figure > img.img').attribute('src').value}"
+    att[:long_desc] = element.css('.image-with-text__description p').last.text.strip
+    att[:alc_percent] = infos_hash[:alcool]
+    att[:category] = infos_hash[:type]
+    att[:ibu] = infos_hash[:ibu].to_i
 
-    att[:name] = infos.first
-    att[:alc_percent] = infos[1].to_i
-    att[:category] = infos[2]
-    att[:long_desc] = infos.last
-
-    doc.search('wix-image img').each do |element|
-      beer_name = element.attribute('alt').value.split('.').first
-      # att[:name].gsub(' ', '').downcase
-
-      if beer_name == att[:name].gsub(' ', '_').gsub('è', 'e').gsub("'", '').downcase || beer_name == 'Trefle' && att[:name].split.first == 'Trèfle'
-        att[:image_link] = element.attribute('src').value.gsub(',blur_3', '')
-      end
-    end
-
-    unless att[:image_link].nil?
-      photo_file = download_to_file(att[:image_link])
-
-      beer = Beer.new(att)
-      # p counter
-      beer.photo.attach(io: photo_file, filename: "#{att[:name]}", content_type: 'image/jpg')
-
-      beer.brewery = brewery
-
-      beer.save!
-    end
+    att
   end
+
+  response = AirtableHelper.new(
+    table_id: 'tbleZs7nvjrIf9gUe',
+    data: details
+  ).save_to_airtable
+  p response
+end
+
+def load_trefle_noir
+  response = AirtableHelper.new(
+    table_id: 'tbleZs7nvjrIf9gUe',
+    brewery_name: 'Le Trèfle Noir Microbrasserie'
+  ).fetch_from_airtable
+
+  p response
 end

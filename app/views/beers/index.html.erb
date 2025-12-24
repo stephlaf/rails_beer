@@ -1,6 +1,6 @@
 <div class="container d-flex flex-column align-items-center">
   <p id="results-count"><%=pluralize @beers.count, 'Résultat' %></p>
-  
+
   <div class="row" id="all-beers-container">
     <% @beers.order_by_name.each do |beer| %>
       <div class="col-12">
@@ -13,8 +13,10 @@
             <%= link_to beer_path(beer) do  %>
               <% if beer.photo.attached? %>
                 <div class="beer-card-img"><%= cl_image_tag beer.photo.key, height: 75, crop: :thumb %></div>
+              <% elsif beer.image_link.present? %>
+                <div class="beer-card-img"><%= image_tag beer.image_link, height: 150 %></div>
               <% else %>
-                <div class="beer-card-img"><%= image_tag 'default_beer.png', height: 75 %></div>
+                <div class="my-3"><%= image_tag 'default_beer.png', height: 150 %></div>
               <% end %>
             <% end %>
 
